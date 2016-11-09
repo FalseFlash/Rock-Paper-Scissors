@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Rock Paper Scissors Part 2</title>
+  </head>
+  <body>
+
+    <div id="game">
+
+    </div>
+
+    <script type="text/javascript">
+
+      function ReadableChoice(choice) {
+        if(choice == "r")
+          return "Rock";
+        else if(choice == "s")
+          return "Scissors";
+        else
+          return "Paper";
+      }
+
+      // Creates an array that lists out all of the options (Rock, Paper, or Scissors).
+      var options = ["r", "p", "s"];
+      var winCount = [];
+      winCount['computer'] = 0;
+      winCount['player'] = 0;
+      winCount['ties'] = 0;
+
+      /*
+        Condition 0 = lose
+        Condition 1 = win
+        Condition 2 = tie
+       */
+      var winningConditions = {
+        "p": {
+          "r": {
+            condition: 1
+          },
+          "s": {
+            condition: 0
+          },
+          "p": {
+            condition: 2
+          }
+        },
+        "r": {
+          "p": {
+            condition: 1
+          },
+          "s": {
+            condition: 0
+          },
+          "r": {
+            condition: 2
+          }
+        },
+        "s": {
+          "r": {
+            condition: 1
+          },
+          "p": {
+            condition: 0
+          },
+          "s": {
+            condition: 2
+          }
+        }
+      };
+
+      // This function is run whenever the user presses a key.
+      document.onkeypress = function(event) {
+        var ED = document.getElementById("errorMessage");
+        var UC = document.getElementById("userChoice");
+        var BC = document.getElementById("botChoice");
+        var WM = document.getElementById("winningMessage");
+        var CW = document.getElementById("computerWins");
+        var PW = document.getElementById("playerWins");
+        var ties = document.getElementById("ties");
+
+        WM.innerHTML = "";
+        // Determines which key was pressed, then makes it lowercase.
+        var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+
+        if(options.indexOf(userGuess) === -1) {
+          ED.innerHTML = "<strong>" + userGuess + " is an invalid choice!</strong>";
+          return console.log('Invalid key');
+        }
+
+        ED.innerHTML = "";
+        UC.innerHTML = "<strong>You've chosen " + ReadableChoice(userGuess) + "!</strong>";
+
+        // Randomly chooses a choice from the options array. This is the Computer's guess.
+        var computerGuess = options[Math.floor(Math.random() * options.length)];
+        BC.innerHTML = "<strong>Computer chose " + ReadableChoice(computerGuess)  + "!</strong>";
+
+        if(winningConditions[userGuess][computerGuess].condition === 0) {
+          WM.innerHTML = "<strong>The computer wins!</strong>";
+          winCount['computer']++;
+          CW.innerHTML = "Computer Wins: <strong>" + winCount['computer'] + "</strong>";
+        } else if(winningConditions[userGuess][computerGuess].condition === 2) {
+          WM.innerHTML = "<strong>It's a tie!</strong>";
+          winCount['ties']++;
+          ties.innerHTML = "Ties: <strong>" + winCount['ties'] + "</strong>";
+        } else {
+          WM.innerHTML = "<strong>You win!</strong>";
+          winCount['player']++;
+          PW.innerHTML = "Player Wins: <strong>" + winCount['player'] + "</strong>";
+        }
+
+      };
+
+    </script>
+    <div align="center">
+      <div id="computerWins">Computer Wins: 0</div>
+      <div id="playerWins">Player Wins: 0</div>
+      <div id="ties">Ties: 0</div>
+      <br>
+      <div id="botChoice"></div>
+      <div id="userChoice"></div>
+      <div id="errorMessage"></div>
+      <br>
+      <br>
+      <br>
+      <div id="winningMessage"></div>
+    </div>
+  </body>
+</html>
