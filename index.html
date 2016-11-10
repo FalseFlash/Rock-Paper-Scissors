@@ -23,10 +23,11 @@
 
       // Creates an array that lists out all of the options (Rock, Paper, or Scissors).
       var options = ["r", "p", "s"];
-      var winCount = [];
-      winCount['computer'] = 0;
-      winCount['player'] = 0;
-      winCount['ties'] = 0;
+      var winCount = {
+      	computer: 0,
+      	player: 0,
+      	ties: 0
+      };
 
       /*
         Condition 0 = lose
@@ -97,15 +98,15 @@
 
         if(winningConditions[userGuess][computerGuess].condition === 0) {
           WM.innerHTML = "<strong>The computer wins!</strong>";
-          winCount['computer']++;
+          winCount.computer++;
           CW.innerHTML = "Computer Wins: <strong>" + winCount['computer'] + "</strong>";
         } else if(winningConditions[userGuess][computerGuess].condition === 2) {
           WM.innerHTML = "<strong>It's a tie!</strong>";
-          winCount['ties']++;
+          winCount.ties++;
           ties.innerHTML = "Ties: <strong>" + winCount['ties'] + "</strong>";
         } else {
           WM.innerHTML = "<strong>You win!</strong>";
-          winCount['player']++;
+          winCount.player++;
           PW.innerHTML = "Player Wins: <strong>" + winCount['player'] + "</strong>";
         }
 
